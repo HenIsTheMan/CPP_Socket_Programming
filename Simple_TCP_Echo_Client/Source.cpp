@@ -72,6 +72,24 @@ int main(void)
 
     printf("Connected to server.\n");
 
+    memset(MessageBuffer, '\0', DEFAULT_BUFLEN);
+    Result = recv(ConnectSocket, MessageBuffer, DEFAULT_BUFLEN, 0);
+    if(0 < Result)
+    {
+        printf("Bytes received: %d\n", Result);
+        printf("Message received : %s\n", MessageBuffer);
+    }
+    else if(0 == Result)
+    {
+        printf("Connection closed\n");
+    }
+    else
+    {
+        printf("Recv failed: %d\n", WSAGetLastError());
+        //break;
+    }
+    printf("Bytes sent : %d\n", Result);
+
     /// Receive until the peer closes the connection
     while( 1 )
     {
@@ -102,7 +120,7 @@ int main(void)
         Result = recv(ConnectSocket, MessageBuffer, DEFAULT_BUFLEN, 0);
         if(0 < Result)
         {
-            printf("Bytes received   : %d\n", Result);
+            printf("Bytes received: %d\n", Result);
             printf("Message received : %s\n", MessageBuffer);
         }
         else if(0 == Result)
